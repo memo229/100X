@@ -531,104 +531,69 @@ input:focus{
 
     <div id="position" class="card position">
 
-      <div class="positionHeader">
+  <div class="positionHeader">
+    <div>
+      <span id="positionSymbol" class="positionSymbol">BTCUSDT</span>
+      <span class="badge">Perp</span>
+      <span id="positionLeverage" class="badge">5x</span>
+      <span id="sideBadge" class="sideBadge long">LONG</span>
+    </div>
+  </div>
 
-        <div>
-          <span id="positionSymbol" class="positionSymbol">
-            BTCUSDT
-          </span>
+  <div class="pnlBox">
+    <div>
+      <div class="pnlTitle">PNL (USDT)</div>
+      <div id="pnl" class="pnl green">+0.00</div>
+    </div>
 
-          <span class="badge">Perp</span>
+    <div style="text-align:right;">
+      <div class="pnlTitle">ROI</div>
+      <div id="roi" class="roi green">+0.00%</div>
+    </div>
+  </div>
 
-          <span id="positionLeverage" class="badge">
-            5x
-          </span>
+  <div class="stats">
 
-          <span id="sideBadge" class="sideBadge long">
-            LONG
-          </span>
-        </div>
+    <div>
+      <div class="statTitle">Size</div>
+      <div id="size" class="statValue">0.00</div>
+    </div>
 
-      </div>
+    <div>
+      <div class="statTitle">Margin</div>
+      <div id="posMargin" class="statValue">0.00</div>
+    </div>
 
+    <div>
+      <div class="statTitle">Entry Price</div>
+      <div id="posEntry" class="statValue">--</div>
+    </div>
 
-      <div class="pnlBox">
+    <div>
+      <div class="statTitle">Mark Price</div>
+      <div id="markPrice" class="statValue">--</div>
+    </div>
 
-        <div>
-          <div class="pnlTitle">PNL (USDT)</div>
-          <div id="pnl" class="pnl green">+0.00</div>
-        </div>
-
-        <div style="text-align:right;">
-          <div class="pnlTitle">ROI</div>
-          <div id="roi" class="roi green">+0.00%</div>
-        </div>
-
-      </div>
-
-
-      <div class="stats">
-
-        <div>
-          <div class="statTitle">Size (USDT)</div>
-          <div id="size" class="statValue">0.00</div>
-        </div>
-
-        <div>
-          <div class="statTitle">Margin</div>
-          <div id="posMargin" class="statValue">0.00</div>
-        </div>
-
-        <div>
-          <div class="statTitle">Margin Ratio</div>
-          <div id="marginRatio" class="statValue">--</div>
-        </div>
-
-        <div>
-          <div class="statTitle">Entry Price</div>
-          <div id="posEntry" class="statValue">--</div>
-        </div>
-
-        <div>
-          <div class="statTitle">Mark Price</div>
-          <div id="markPrice" class="statValue">--</div>
-        </div>
-
-        <div>
-          <div class="statTitle">Liq. Price</div>
-          <div id="liqPrice" class="statValue">--</div>
-        </div>
-
-      </div>
-
-
-      <div class="realized">
-
-        <span>Realized PNL</span>
-
-        <span id="realized" class="red">
-          0.00
-        </span>
-
-      </div>
-
-
-      <div class="actions">
-
-        <button class="action" onclick="closePosition()">
-          Close
-        </button>
-
-        <button class="action" onclick="toggleTP()">
-          TP / SL
-        </button>
-
-      </div>
-
+    <div>
+      <div class="statTitle">Liq. Price</div>
+      <div id="liqPrice" class="statValue">--</div>
     </div>
 
   </div>
 
+  <div class="actions">
+
+    <button class="action" onclick="saveCurrentPosition()">
+      💾 Save Position
+    </button>
+
+    <button class="action close" onclick="closePosition()">
+      Close
+    </button>
+
+  </div>
+
+</div>
 
   <!-- BALANCE -->
 
@@ -651,28 +616,34 @@ input:focus{
 
   <!-- HISTORY -->
 
-  <div class="history">
+ <div class="history">
+
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  ">
 
     <div class="label">
-      Trade History
+      Saved Positions
     </div>
 
-    <div id="historyList">
-      <div class="empty">
-        No trades yet
-      </div>
-    </div>
+    <button
+      class="action"
+      style="padding:7px 10px;"
+      onclick="deleteAllSaved()">
+      🗑️ Delete All
+    </button>
 
   </div>
 
-  <div class="demo">
-    DEMO / VIRTUAL TRADING — No real orders are sent.
+  <div id="savedPositions">
+    <div class="empty">
+      No saved positions
+    </div>
   </div>
 
 </div>
-
-
-<script>
 
 /* =========================================================
    CONFIG
