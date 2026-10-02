@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Futures Simulator</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -25,7 +27,8 @@ body{
   background:#171d27;
 }
 
-/* HEADER */
+
+/* ================= HEADER ================= */
 
 .header{
   padding:18px 16px 10px;
@@ -93,7 +96,8 @@ body{
   color:#2ec58b;
 }
 
-/* COIN SEARCH */
+
+/* ================= COIN SEARCH ================= */
 
 .coinPanel{
   display:none;
@@ -141,7 +145,8 @@ body{
   color:#7f899a;
 }
 
-/* FORM */
+
+/* ================= FORM ================= */
 
 .form{
   padding:15px;
@@ -182,6 +187,9 @@ input:focus{
   gap:10px;
 }
 
+
+/* ================= SIDE ================= */
+
 .sideRow{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -208,6 +216,9 @@ input:focus{
   background:#e64e67;
 }
 
+
+/* ================= OPEN BUTTON ================= */
+
 .openBtn{
   width:100%;
   border:0;
@@ -224,12 +235,8 @@ input:focus{
   background:#e65369;
 }
 
-.openBtn:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
 
-/* POSITION */
+/* ================= POSITION ================= */
 
 .position{
   display:none;
@@ -275,6 +282,9 @@ input:focus{
   background:#41232c;
 }
 
+
+/* ================= PNL ================= */
+
 .pnlBox{
   display:flex;
   justify-content:space-between;
@@ -306,6 +316,9 @@ input:focus{
   color:#f05469;
 }
 
+
+/* ================= STATS ================= */
+
 .stats{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
@@ -324,15 +337,8 @@ input:focus{
   font-weight:600;
 }
 
-.realized{
-  margin-top:18px;
-  background:#1b222d;
-  border:1px solid #303a48;
-  padding:12px;
-  border-radius:9px;
-  display:flex;
-  justify-content:space-between;
-}
+
+/* ================= ACTIONS ================= */
 
 .actions{
   display:grid;
@@ -356,7 +362,8 @@ input:focus{
   background:#3b3036;
 }
 
-/* BALANCE */
+
+/* ================= BALANCE ================= */
 
 .balance{
   padding:0 15px 15px;
@@ -375,10 +382,11 @@ input:focus{
   margin-top:6px;
 }
 
-/* HISTORY */
+
+/* ================= HISTORY ================= */
 
 .history{
-  padding:0 15px 30px;
+  padding:0 15px 15px;
 }
 
 .historyItem{
@@ -396,318 +404,760 @@ input:focus{
   padding:15px;
 }
 
+
+/* ================= SAVED ================= */
+
+.savedHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.deleteAll{
+  border:0;
+  background:#3b3036;
+  color:#f06a7b;
+  padding:7px 10px;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.savedButtons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+
+.savedOpen{
+  background:#303846;
+}
+
+.savedDelete{
+  background:#3b3036;
+  color:#f06a7b;
+}
+
+
+/* ================= FOOTER ================= */
+
 .demo{
   text-align:center;
   color:#737e8e;
   font-size:11px;
   padding:15px 0 25px;
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
-  <!-- HEADER -->
 
-  <div class="header">
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-    <div class="top">
+<div class="header">
 
-      <div class="symbolBox">
+  <div class="top">
 
-        <button class="symbolButton" onclick="toggleCoins()">
-          <span id="symbolText">BTCUSDT</span>
-          <span class="perp">Perp</span>
-          <span class="arrow">▼</span>
-        </button>
+    <div class="symbolBox">
 
-      </div>
+      <button
+        class="symbolButton"
+        onclick="toggleCoins()">
 
-      <div style="font-size:22px;">⋯</div>
+        <span id="symbolText">
+          BTCUSDT
+        </span>
+
+        <span class="perp">
+          Perp
+        </span>
+
+        <span class="arrow">
+          ▼
+        </span>
+
+      </button>
 
     </div>
 
-    <div id="price" class="price">--</div>
-
-    <div id="status" class="status">
-      Loading Futures markets...
-    </div>
-
-    <div id="coinPanel" class="coinPanel">
-
-      <input
-        id="search"
-        class="search"
-        placeholder="Search coin e.g. AVAX, BTC, DOGE..."
-        oninput="filterCoins()"
-      >
-
-      <div id="coinList" class="coinList"></div>
-
+    <div style="font-size:22px;">
+      ⋯
     </div>
 
   </div>
 
 
-  <!-- TRADE FORM -->
-
-  <div class="form">
-
-    <div class="card">
-
-      <div class="label">Position Side</div>
-
-      <div class="sideRow">
-
-        <button
-          id="longBtn"
-          class="sideBtn long active"
-          onclick="setSide('LONG')">
-          Buy / Long
-        </button>
-
-        <button
-          id="shortBtn"
-          class="sideBtn short"
-          onclick="setSide('SHORT')">
-          Sell / Short
-        </button>
-
-      </div>
+  <div id="price" class="price">
+    --
+  </div>
 
 
-      <div class="row">
+  <div id="status" class="status">
+    Loading Futures markets...
+  </div>
 
-        <div>
-          <div class="label">Entry Price</div>
-          <input id="entry" type="number" step="any">
-        </div>
 
-        <div>
-          <div class="label">Margin (USDT)</div>
-          <input id="margin" type="number" value="100" min="1">
-        </div>
+  <!-- COIN SEARCH -->
 
-      </div>
+  <div id="coinPanel" class="coinPanel">
 
-      <br>
+    <input
+      id="search"
+      class="search"
+      placeholder="Search coin e.g. BTC, ETH, AVAX..."
+      oninput="filterCoins()"
+    >
 
-      <div class="row">
+    <div
+      id="coinList"
+      class="coinList">
+    </div>
 
-        <div>
-          <div class="label">Leverage</div>
-          <input id="leverage" type="number" value="5" min="1" max="125">
-        </div>
+  </div>
 
-        <div>
-          <div class="label">TP Price</div>
-          <input id="tp" type="number" step="any" placeholder="Optional">
-        </div>
+</div>
 
-      </div>
 
-      <br>
 
-      <div>
-        <div class="label">SL Price</div>
-        <input id="sl" type="number" step="any" placeholder="Optional">
-      </div>
+<!-- =====================================================
+     TRADE FORM
+===================================================== -->
 
-      <br>
+<div class="form">
+
+  <div class="card">
+
+
+    <div class="label">
+      Position Side
+    </div>
+
+
+    <div class="sideRow">
 
       <button
-        id="openBtn"
-        class="openBtn"
-        onclick="openPosition()">
+        id="longBtn"
+        class="sideBtn long active"
+        onclick="setSide('LONG')">
+
         Buy / Long
+
+      </button>
+
+
+      <button
+        id="shortBtn"
+        class="sideBtn short"
+        onclick="setSide('SHORT')">
+
+        Sell / Short
+
       </button>
 
     </div>
 
 
-    <!-- POSITION -->
 
-    <div id="position" class="card position">
+    <div class="row">
 
-  <div class="positionHeader">
+      <div>
+
+        <div class="label">
+          Entry Price
+        </div>
+
+        <input
+          id="entry"
+          type="number"
+          step="any"
+        >
+
+      </div>
+
+
+      <div>
+
+        <div class="label">
+          Margin (USDT)
+        </div>
+
+        <input
+          id="margin"
+          type="number"
+          value="100"
+          min="1"
+        >
+
+      </div>
+
+    </div>
+
+
+
+    <br>
+
+
+    <div class="row">
+
+      <div>
+
+        <div class="label">
+          Leverage
+        </div>
+
+        <input
+          id="leverage"
+          type="number"
+          value="5"
+          min="1"
+          max="125"
+        >
+
+      </div>
+
+
+      <div>
+
+        <div class="label">
+          TP Price
+        </div>
+
+        <input
+          id="tp"
+          type="number"
+          step="any"
+          placeholder="Optional"
+        >
+
+      </div>
+
+    </div>
+
+
+
+    <br>
+
+
     <div>
-      <span id="positionSymbol" class="positionSymbol">BTCUSDT</span>
-      <span class="badge">Perp</span>
-      <span id="positionLeverage" class="badge">5x</span>
-      <span id="sideBadge" class="sideBadge long">LONG</span>
-    </div>
-  </div>
 
-  <div class="pnlBox">
-    <div>
-      <div class="pnlTitle">PNL (USDT)</div>
-      <div id="pnl" class="pnl green">+0.00</div>
-    </div>
+      <div class="label">
+        SL Price
+      </div>
 
-    <div style="text-align:right;">
-      <div class="pnlTitle">ROI</div>
-      <div id="roi" class="roi green">+0.00%</div>
-    </div>
-  </div>
+      <input
+        id="sl"
+        type="number"
+        step="any"
+        placeholder="Optional"
+      >
 
-  <div class="stats">
-
-    <div>
-      <div class="statTitle">Size</div>
-      <div id="size" class="statValue">0.00</div>
     </div>
 
-    <div>
-      <div class="statTitle">Margin</div>
-      <div id="posMargin" class="statValue">0.00</div>
-    </div>
 
-    <div>
-      <div class="statTitle">Entry Price</div>
-      <div id="posEntry" class="statValue">--</div>
-    </div>
 
-    <div>
-      <div class="statTitle">Mark Price</div>
-      <div id="markPrice" class="statValue">--</div>
-    </div>
+    <br>
 
-    <div>
-      <div class="statTitle">Liq. Price</div>
-      <div id="liqPrice" class="statValue">--</div>
-    </div>
 
-  </div>
+    <button
+      id="openBtn"
+      class="openBtn"
+      onclick="openPosition()">
 
-  <div class="actions">
+      Buy / Long
 
-    <button class="action" onclick="saveCurrentPosition()">
-      💾 Save Position
     </button>
 
-    <button class="action close" onclick="closePosition()">
-      Close
-    </button>
+  </div>
+
+
+
+  <!-- =================================================
+       OPEN POSITION
+  ================================================= -->
+
+  <div
+    id="position"
+    class="card position">
+
+
+    <div class="positionHeader">
+
+      <div>
+
+        <span
+          id="positionSymbol"
+          class="positionSymbol">
+
+          BTCUSDT
+
+        </span>
+
+
+        <span class="badge">
+          Perp
+        </span>
+
+
+        <span
+          id="positionLeverage"
+          class="badge">
+
+          5x
+
+        </span>
+
+
+        <span
+          id="sideBadge"
+          class="sideBadge long">
+
+          LONG
+
+        </span>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="pnlBox">
+
+      <div>
+
+        <div class="pnlTitle">
+          PNL (USDT)
+        </div>
+
+        <div
+          id="pnl"
+          class="pnl green">
+
+          +0.00
+
+        </div>
+
+      </div>
+
+
+      <div style="text-align:right;">
+
+        <div class="pnlTitle">
+          ROI
+        </div>
+
+        <div
+          id="roi"
+          class="roi green">
+
+          +0.00%
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="stats">
+
+
+      <div>
+
+        <div class="statTitle">
+          Size
+        </div>
+
+        <div
+          id="size"
+          class="statValue">
+
+          0.00
+
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="statTitle">
+          Margin
+        </div>
+
+        <div
+          id="posMargin"
+          class="statValue">
+
+          0.00
+
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="statTitle">
+          Entry Price
+        </div>
+
+        <div
+          id="posEntry"
+          class="statValue">
+
+          --
+
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="statTitle">
+          Mark Price
+        </div>
+
+        <div
+          id="markPrice"
+          class="statValue">
+
+          --
+
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="statTitle">
+          Liq. Price
+        </div>
+
+        <div
+          id="liqPrice"
+          class="statValue">
+
+          --
+
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="statTitle">
+          Quantity
+        </div>
+
+        <div
+          id="quantity"
+          class="statValue">
+
+          --
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="actions">
+
+
+      <button
+        class="action"
+        onclick="saveCurrentPosition()">
+
+        💾 Save Position
+
+      </button>
+
+
+      <button
+        class="action close"
+        onclick="closePosition()">
+
+        Close
+
+      </button>
+
+    </div>
 
   </div>
 
 </div>
 
-  <!-- BALANCE -->
 
-  <div class="balance">
 
-    <div class="balanceCard">
+<!-- =====================================================
+     BALANCE
+===================================================== -->
 
-      <div class="label">
-        Virtual Wallet Balance
-      </div>
+<div class="balance">
 
-      <div id="balance" class="balanceAmount">
-        $1,000.00
-      </div>
+  <div class="balanceCard">
+
+    <div class="label">
+      Virtual Wallet Balance
+    </div>
+
+    <div
+      id="balance"
+      class="balanceAmount">
+
+      $1,000.00
 
     </div>
 
   </div>
 
+</div>
 
-  <!-- HISTORY -->
 
- <div class="history">
 
-  <div style="
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-  ">
+<!-- =====================================================
+     TRADE HISTORY
+===================================================== -->
+
+<div class="history">
+
+  <div class="label">
+    Trade History
+  </div>
+
+  <div id="historyList">
+
+    <div class="empty">
+      No trades yet
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SAVED POSITIONS
+===================================================== -->
+
+<div class="history">
+
+  <div class="savedHeader">
 
     <div class="label">
       Saved Positions
     </div>
 
+
     <button
-      class="action"
-      style="padding:7px 10px;"
+      class="deleteAll"
       onclick="deleteAllSaved()">
-      🗑️ Delete All
+
+      🗑 Delete All
+
     </button>
 
   </div>
 
+
   <div id="savedPositions">
+
     <div class="empty">
       No saved positions
     </div>
+
   </div>
 
 </div>
 
-/* =========================================================
+
+
+<div class="demo">
+
+  DEMO / VIRTUAL TRADING — No real orders are sent.
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
    CONFIG
-========================================================= */
+===================================================== */
 
-const API = "https://fapi.binance.com";
+const API =
+  "https://fapi.binance.com";
 
-const WS = "wss://fstream.binance.com/market/ws";
+const WS =
+  "wss://fstream.binance.com/market/ws";
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
 
 let symbols = [];
+
 let filteredSymbols = [];
 
-let currentSymbol = "BTCUSDT";
-let currentPrice = null;
-let previousPrice = null;
+let currentSymbol =
+  "BTCUSDT";
 
-let socket = null;
-let reconnectTimer = null;
+let currentPrice =
+  null;
 
-let side = "LONG";
-let position = null;
+let previousPrice =
+  null;
 
-let virtualBalance = 1000;
+let socket =
+  null;
 
-let history = [];
+let reconnectTimer =
+  null;
+
+let side =
+  "LONG";
+
+let position =
+  null;
+
+let virtualBalance =
+  1000;
+
+let history =
+  [];
 
 
-/* =========================================================
+/* =====================================================
+   SAVED POSITIONS
+===================================================== */
+
+let savedPositions =
+  JSON.parse(
+    localStorage.getItem(
+      "futuresSavedPositions"
+    ) || "[]"
+  );
+
+
+/* =====================================================
+   LOAD SAVED BALANCE
+===================================================== */
+
+const storedBalance =
+  localStorage.getItem(
+    "futuresVirtualBalance"
+  );
+
+
+if(storedBalance !== null){
+
+  virtualBalance =
+    parseFloat(storedBalance);
+
+}
+
+
+/* =====================================================
+   SAVE BALANCE
+===================================================== */
+
+function saveBalance(){
+
+  localStorage.setItem(
+    "futuresVirtualBalance",
+    virtualBalance
+  );
+
+}
+
+
+/* =====================================================
    LOAD ALL FUTURES SYMBOLS
-========================================================= */
+===================================================== */
 
 async function loadSymbols(){
 
   try{
 
     const response =
-      await fetch(API + "/fapi/v1/exchangeInfo");
+      await fetch(
+        API +
+        "/fapi/v1/exchangeInfo"
+      );
 
-    const data = await response.json();
 
-    symbols = data.symbols.filter(s =>
+    const data =
+      await response.json();
 
-      s.status === "TRADING" &&
-      s.contractType === "PERPETUAL" &&
-      s.quoteAsset === "USDT"
 
-    ).sort((a,b) =>
-      a.symbol.localeCompare(b.symbol)
-    );
+    symbols =
+      data.symbols
+      .filter(s =>
 
-    filteredSymbols = [...symbols];
+        s.status === "TRADING" &&
+
+        s.contractType === "PERPETUAL" &&
+
+        s.quoteAsset === "USDT"
+
+      )
+      .sort(
+        (a,b) =>
+          a.symbol.localeCompare(
+            b.symbol
+          )
+      );
+
+
+    filteredSymbols =
+      [...symbols];
+
 
     renderCoins();
 
-    document.getElementById("status").innerText =
+
+    document.getElementById(
+      "status"
+    ).innerText =
       `${symbols.length} Futures markets loaded`;
 
-    selectSymbol("BTCUSDT");
+
+    selectSymbol(
+      "BTCUSDT"
+    );
+
 
   }catch(error){
 
     console.error(error);
 
-    document.getElementById("status").innerText =
+
+    document.getElementById(
+      "status"
+    ).innerText =
       "Could not load Futures markets";
 
   }
@@ -715,106 +1165,184 @@ async function loadSymbols(){
 }
 
 
-/* =========================================================
-   COIN SEARCH
-========================================================= */
+/* =====================================================
+   COIN PANEL
+===================================================== */
 
 function toggleCoins(){
 
   const panel =
-    document.getElementById("coinPanel");
+    document.getElementById(
+      "coinPanel"
+    );
 
-  panel.classList.toggle("show");
 
-  if(panel.classList.contains("show")){
+  panel.classList.toggle(
+    "show"
+  );
 
-    document.getElementById("search").focus();
+
+  if(
+    panel.classList.contains(
+      "show"
+    )
+  ){
+
+    document.getElementById(
+      "search"
+    ).focus();
 
   }
 
 }
 
 
+/* =====================================================
+   SEARCH COINS
+===================================================== */
+
 function filterCoins(){
 
   const q =
-    document.getElementById("search")
+    document.getElementById(
+      "search"
+    )
     .value
     .trim()
     .toUpperCase();
 
+
   filteredSymbols =
-    symbols.filter(s =>
-      s.symbol.includes(q)
+    symbols.filter(
+      s =>
+        s.symbol.includes(q)
     );
+
 
   renderCoins();
 
 }
 
 
+/* =====================================================
+   RENDER COINS
+===================================================== */
+
 function renderCoins(){
 
   const list =
-    document.getElementById("coinList");
+    document.getElementById(
+      "coinList"
+    );
 
-  list.innerHTML = "";
 
-  filteredSymbols.slice(0,250).forEach(s => {
+  list.innerHTML =
+    "";
 
-    const div =
-      document.createElement("div");
 
-    div.className = "coin";
+  filteredSymbols
+    .slice(0,300)
+    .forEach(s => {
 
-    div.innerHTML = `
-      <strong>${s.symbol}</strong>
-      <small>${s.baseAsset}/USDT</small>
-    `;
 
-    div.onclick = () =>
-      selectSymbol(s.symbol);
+      const div =
+        document.createElement(
+          "div"
+        );
 
-    list.appendChild(div);
 
-  });
+      div.className =
+        "coin";
+
+
+      div.innerHTML = `
+
+        <strong>
+          ${s.symbol}
+        </strong>
+
+        <small>
+          ${s.baseAsset}/USDT
+        </small>
+
+      `;
+
+
+      div.onclick =
+        () =>
+          selectSymbol(
+            s.symbol
+          );
+
+
+      list.appendChild(
+        div
+      );
+
+    });
 
 }
 
 
-/* =========================================================
+/* =====================================================
    SELECT SYMBOL
-========================================================= */
+===================================================== */
 
-async function selectSymbol(symbol){
+async function selectSymbol(
+  symbol
+){
 
-  currentSymbol = symbol;
+  currentSymbol =
+    symbol;
 
-  document.getElementById("symbolText")
-    .innerText = symbol;
 
-  document.getElementById("coinPanel")
-    .classList.remove("show");
+  document.getElementById(
+    "symbolText"
+  ).innerText =
+    symbol;
 
-  document.getElementById("search")
-    .value = "";
 
-  previousPrice = null;
-  currentPrice = null;
+  document.getElementById(
+    "coinPanel"
+  )
+  .classList.remove(
+    "show"
+  );
 
-  document.getElementById("price")
-    .innerText = "--";
 
-  document.getElementById("status")
-    .innerText = "Connecting live price...";
+  document.getElementById(
+    "search"
+  ).value =
+    "";
 
-  document.getElementById("status")
-    .classList.remove("live");
 
-  /*
-    Get initial Mark Price through REST first.
-    This prevents the "Wait for live price" problem.
-  */
+  previousPrice =
+    null;
+
+
+  currentPrice =
+    null;
+
+
+  document.getElementById(
+    "price"
+  ).innerText =
+    "--";
+
+
+  document.getElementById(
+    "status"
+  ).innerText =
+    "Connecting live price...";
+
+
+  document.getElementById(
+    "status"
+  )
+  .classList.remove(
+    "live"
+  );
+
 
   try{
 
@@ -822,234 +1350,352 @@ async function selectSymbol(symbol){
       await fetch(
         API +
         "/fapi/v1/premiumIndex?symbol=" +
-        encodeURIComponent(symbol)
+        encodeURIComponent(
+          symbol
+        )
       );
 
-    const data = await response.json();
+
+    const data =
+      await response.json();
+
 
     if(data.markPrice){
 
       updatePrice(
-        parseFloat(data.markPrice)
+        parseFloat(
+          data.markPrice
+        )
       );
 
     }
 
   }catch(error){
 
-    console.log("Initial price error:",error);
+    console.log(
+      "Initial price error:",
+      error
+    );
 
   }
+
 
   connectWebSocket();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    WEBSOCKET
-========================================================= */
+===================================================== */
 
 function connectWebSocket(){
 
   if(socket){
 
     try{
+
       socket.close();
+
     }catch(e){}
 
   }
 
-  clearTimeout(reconnectTimer);
+
+  clearTimeout(
+    reconnectTimer
+  );
+
 
   const stream =
     currentSymbol.toLowerCase() +
     "@markPrice@1s";
 
+
   socket =
     new WebSocket(
-      WS + "/" + stream
+      WS +
+      "/" +
+      stream
     );
 
-  socket.onopen = () => {
 
-    document.getElementById("status")
-      .innerText = "● LIVE Mark Price";
+  socket.onopen =
+    () => {
 
-    document.getElementById("status")
-      .classList.add("live");
+      document.getElementById(
+        "status"
+      ).innerText =
+        "● LIVE Mark Price";
 
-  };
+
+      document.getElementById(
+        "status"
+      )
+      .classList.add(
+        "live"
+      );
+
+    };
 
 
-  socket.onmessage = event => {
+  socket.onmessage =
+    event => {
 
-    try{
+      try{
 
-      const data =
-        JSON.parse(event.data);
+        const data =
+          JSON.parse(
+            event.data
+          );
 
-      if(data.p){
 
-        updatePrice(
-          parseFloat(data.p)
+        if(data.p){
+
+          updatePrice(
+            parseFloat(
+              data.p
+            )
+          );
+
+        }
+
+      }catch(error){
+
+        console.log(
+          error
         );
 
       }
 
-    }catch(error){
-
-      console.log(error);
-
-    }
-
-  };
+    };
 
 
-  socket.onerror = () => {
+  socket.onerror =
+    () => {
 
-    document.getElementById("status")
-      .innerText = "Live connection error";
+      document.getElementById(
+        "status"
+      ).innerText =
+        "Live connection error";
 
-  };
+    };
 
 
-  socket.onclose = () => {
+  socket.onclose =
+    () => {
 
-    document.getElementById("status")
-      .innerText = "Reconnecting...";
+      document.getElementById(
+        "status"
+      ).innerText =
+        "Reconnecting...";
 
-    reconnectTimer =
-      setTimeout(() => {
 
-        connectWebSocket();
+      reconnectTimer =
+        setTimeout(
+          () => {
 
-      },3000);
+            connectWebSocket();
 
-  };
+          },
+          3000
+        );
+
+    };
 
 }
 
 
-/* =========================================================
-   PRICE
-========================================================= */
+/* =====================================================
+   UPDATE PRICE
+===================================================== */
 
-function updatePrice(price){
+function updatePrice(
+  price
+){
 
-  if(!Number.isFinite(price))
+  if(
+    !Number.isFinite(
+      price
+    )
+  )
     return;
 
-  previousPrice = currentPrice;
 
-  currentPrice = price;
+  previousPrice =
+    currentPrice;
+
+
+  currentPrice =
+    price;
+
 
   const el =
-    document.getElementById("price");
+    document.getElementById(
+      "price"
+    );
+
 
   el.innerText =
-    formatPrice(price);
+    formatPrice(
+      price
+    );
 
-  el.classList.remove("up","down");
 
-  if(previousPrice !== null){
+  el.classList.remove(
+    "up",
+    "down"
+  );
 
-    if(price > previousPrice)
-      el.classList.add("up");
 
-    if(price < previousPrice)
-      el.classList.add("down");
+  if(
+    previousPrice !== null
+  ){
+
+    if(
+      price >
+      previousPrice
+    )
+      el.classList.add(
+        "up"
+      );
+
+
+    if(
+      price <
+      previousPrice
+    )
+      el.classList.add(
+        "down"
+      );
 
   }
 
-  /*
-    Automatically put live price
-    in Entry field if user hasn't entered one.
-  */
 
   const entry =
-    document.getElementById("entry");
+    document.getElementById(
+      "entry"
+    );
+
 
   if(
+
     !position &&
-    (!entry.value || entry.dataset.auto === "true")
+
+    (
+      !entry.value ||
+      entry.dataset.auto === "true"
+    )
+
   ){
 
     entry.value =
       price;
 
-    entry.dataset.auto = "true";
+    entry.dataset.auto =
+      "true";
 
   }
+
 
   updatePosition();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    SIDE
-========================================================= */
+===================================================== */
 
-function setSide(newSide){
+function setSide(
+  newSide
+){
 
-  side = newSide;
+  side =
+    newSide;
+
 
   const long =
-    document.getElementById("longBtn");
+    document.getElementById(
+      "longBtn"
+    );
+
 
   const short =
-    document.getElementById("shortBtn");
+    document.getElementById(
+      "shortBtn"
+    );
+
 
   const open =
-    document.getElementById("openBtn");
+    document.getElementById(
+      "openBtn"
+    );
+
 
   long.classList.toggle(
     "active",
     side === "LONG"
   );
 
+
   short.classList.toggle(
     "active",
     side === "SHORT"
   );
 
-  if(side === "LONG"){
+
+  if(
+    side === "LONG"
+  ){
 
     open.innerText =
       "Buy / Long";
 
-    open.classList.remove("shortMode");
+
+    open.classList.remove(
+      "shortMode"
+    );
 
   }else{
 
     open.innerText =
       "Sell / Short";
 
-    open.classList.add("shortMode");
+
+    open.classList.add(
+      "shortMode"
+    );
 
   }
 
 }
 
 
-/* =========================================================
+/* =====================================================
    OPEN POSITION
-========================================================= */
+===================================================== */
 
 function openPosition(){
 
   if(position){
 
-    alert("You already have an open position.");
+    alert(
+      "You already have an open position."
+    );
 
     return;
 
   }
 
-  if(currentPrice === null){
 
-    alert("Wait for the live price.");
+  if(
+    currentPrice === null
+  ){
+
+    alert(
+      "Wait for the live price."
+    );
 
     return;
 
@@ -1058,27 +1704,41 @@ function openPosition(){
 
   const entry =
     parseFloat(
-      document.getElementById("entry").value
+      document.getElementById(
+        "entry"
+      ).value
     );
+
 
   const margin =
     parseFloat(
-      document.getElementById("margin").value
+      document.getElementById(
+        "margin"
+      ).value
     );
+
 
   const leverage =
     parseFloat(
-      document.getElementById("leverage").value
+      document.getElementById(
+        "leverage"
+      ).value
     );
+
 
   const tp =
     parseFloat(
-      document.getElementById("tp").value
+      document.getElementById(
+        "tp"
+      ).value
     );
+
 
   const sl =
     parseFloat(
-      document.getElementById("sl").value
+      document.getElementById(
+        "sl"
+      ).value
     );
 
 
@@ -1087,22 +1747,28 @@ function openPosition(){
     entry <= 0
   ){
 
-    alert("Enter a valid Entry Price.");
+    alert(
+      "Enter a valid Entry Price."
+    );
 
     return;
 
   }
+
 
   if(
     !Number.isFinite(margin) ||
     margin <= 0
   ){
 
-    alert("Enter a valid Margin.");
+    alert(
+      "Enter a valid Margin."
+    );
 
     return;
 
   }
+
 
   if(
     !Number.isFinite(leverage) ||
@@ -1110,15 +1776,23 @@ function openPosition(){
     leverage > 125
   ){
 
-    alert("Leverage must be between 1x and 125x.");
+    alert(
+      "Leverage must be between 1x and 125x."
+    );
 
     return;
 
   }
 
-  if(margin > virtualBalance){
 
-    alert("Not enough virtual balance.");
+  if(
+    margin >
+    virtualBalance
+  ){
+
+    alert(
+      "Not enough virtual balance."
+    );
 
     return;
 
@@ -1126,23 +1800,25 @@ function openPosition(){
 
 
   const notional =
-    margin * leverage;
+    margin *
+    leverage;
+
 
   const quantity =
-    notional / entry;
+    notional /
+    entry;
 
-
-  /*
-    Simple approximate liquidation price.
-    This is a simulator, not Binance's actual
-    liquidation engine.
-  */
-
-  const maintenanceRate = 0.005;
 
   let liq;
 
-  if(side === "LONG"){
+
+  const maintenanceRate =
+    0.005;
+
+
+  if(
+    side === "LONG"
+  ){
 
     liq =
       entry *
@@ -1167,99 +1843,154 @@ function openPosition(){
 
   position = {
 
-    symbol: currentSymbol,
+    symbol:
+      currentSymbol,
 
-    side: side,
+    side:
+      side,
 
-    entry: entry,
+    entry:
+      entry,
 
-    margin: margin,
+    margin:
+      margin,
 
-    leverage: leverage,
+    leverage:
+      leverage,
 
-    notional: notional,
+    notional:
+      notional,
 
-    quantity: quantity,
+    quantity:
+      quantity,
 
-    tp: Number.isFinite(tp) ? tp : null,
+    tp:
+      Number.isFinite(tp)
+      ? tp
+      : null,
 
-    sl: Number.isFinite(sl) ? sl : null,
+    sl:
+      Number.isFinite(sl)
+      ? sl
+      : null,
 
-    liq: Math.max(0,liq),
+    liq:
+      Math.max(
+        0,
+        liq
+      ),
 
-    openedAt: new Date()
+    openedAt:
+      new Date()
 
   };
 
 
-  virtualBalance -= margin;
+  virtualBalance -=
+    margin;
 
-  document.getElementById("entry").dataset.auto =
+
+  saveBalance();
+
+
+  document.getElementById(
+    "entry"
+  )
+  .dataset.auto =
     "false";
 
+
   updateBalance();
+
 
   showPosition();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    UPDATE POSITION
-========================================================= */
+===================================================== */
 
 function updatePosition(){
 
-  if(!position || currentPrice === null)
+  if(
+    !position ||
+    currentPrice === null
+  )
     return;
 
 
   let pnl;
 
-  if(position.side === "LONG"){
+
+  if(
+    position.side === "LONG"
+  ){
 
     pnl =
-      (currentPrice - position.entry) *
+      (
+        currentPrice -
+        position.entry
+      ) *
       position.quantity;
 
   }else{
 
     pnl =
-      (position.entry - currentPrice) *
+      (
+        position.entry -
+        currentPrice
+      ) *
       position.quantity;
 
   }
 
 
   const roi =
-    (pnl / position.margin) * 100;
+    (
+      pnl /
+      position.margin
+    ) *
+    100;
 
 
-  /*
-    TP / SL
-  */
+  /* TP / SL */
 
   if(
     position.side === "LONG"
   ){
 
     if(
+
       position.tp !== null &&
-      currentPrice >= position.tp
+
+      currentPrice >=
+      position.tp
+
     ){
 
-      closePosition("TAKE PROFIT");
+      closePosition(
+        "TAKE PROFIT"
+      );
 
       return;
 
     }
 
+
     if(
+
       position.sl !== null &&
-      currentPrice <= position.sl
+
+      currentPrice <=
+      position.sl
+
     ){
 
-      closePosition("STOP LOSS");
+      closePosition(
+        "STOP LOSS"
+      );
 
       return;
 
@@ -1268,22 +1999,35 @@ function updatePosition(){
   }else{
 
     if(
+
       position.tp !== null &&
-      currentPrice <= position.tp
+
+      currentPrice <=
+      position.tp
+
     ){
 
-      closePosition("TAKE PROFIT");
+      closePosition(
+        "TAKE PROFIT"
+      );
 
       return;
 
     }
 
+
     if(
+
       position.sl !== null &&
-      currentPrice >= position.sl
+
+      currentPrice >=
+      position.sl
+
     ){
 
-      closePosition("STOP LOSS");
+      closePosition(
+        "STOP LOSS"
+      );
 
       return;
 
@@ -1292,14 +2036,14 @@ function updatePosition(){
   }
 
 
-  /*
-    Approx liquidation
-  */
+  /* LIQUIDATION */
 
   if(
 
     position.side === "LONG" &&
-    currentPrice <= position.liq
+
+    currentPrice <=
+    position.liq
 
   ){
 
@@ -1313,7 +2057,9 @@ function updatePosition(){
   if(
 
     position.side === "SHORT" &&
-    currentPrice >= position.liq
+
+    currentPrice >=
+    position.liq
 
   ){
 
@@ -1324,102 +2070,154 @@ function updatePosition(){
   }
 
 
-  renderPosition(pnl,roi);
+  renderPosition(
+    pnl,
+    roi
+  );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    RENDER POSITION
-========================================================= */
+===================================================== */
 
-function renderPosition(pnl,roi){
+function renderPosition(
+  pnl,
+  roi
+){
 
   const pnlEl =
-    document.getElementById("pnl");
+    document.getElementById(
+      "pnl"
+    );
+
 
   const roiEl =
-    document.getElementById("roi");
+    document.getElementById(
+      "roi"
+    );
 
 
   pnlEl.innerText =
-    formatMoney(pnl);
+    formatMoney(
+      pnl
+    );
+
 
   roiEl.innerText =
-    formatPercent(roi);
+    formatPercent(
+      roi
+    );
 
 
   pnlEl.className =
     "pnl " +
-    (pnl >= 0 ? "green" : "red");
+    (
+      pnl >= 0
+      ? "green"
+      : "red"
+    );
+
 
   roiEl.className =
     "roi " +
-    (roi >= 0 ? "green" : "red");
+    (
+      roi >= 0
+      ? "green"
+      : "red"
+    );
 
 
-  document.getElementById("markPrice")
-    .innerText =
-    formatPrice(currentPrice);
+  document.getElementById(
+    "markPrice"
+  ).innerText =
+    formatPrice(
+      currentPrice
+    );
 
-  document.getElementById("size")
-    .innerText =
-    formatMoney(position.notional);
 
-  document.getElementById("posMargin")
-    .innerText =
-    formatMoney(position.margin);
+  document.getElementById(
+    "size"
+  ).innerText =
+    formatMoney(
+      position.notional
+    );
 
-  document.getElementById("posEntry")
-    .innerText =
-    formatPrice(position.entry);
 
-  document.getElementById("liqPrice")
-    .innerText =
-    formatPrice(position.liq);
+  document.getElementById(
+    "posMargin"
+  ).innerText =
+    formatMoney(
+      position.margin
+    );
 
-  /*
-    Simple demo margin ratio.
-  */
 
-  const ratio =
-    Math.max(
-      0,
-      (1 - Math.abs(pnl) / position.margin)
-    ) * 100;
+  document.getElementById(
+    "posEntry"
+  ).innerText =
+    formatPrice(
+      position.entry
+    );
 
-  document.getElementById("marginRatio")
-    .innerText =
-    ratio.toFixed(2) + "%";
+
+  document.getElementById(
+    "liqPrice"
+  ).innerText =
+    formatPrice(
+      position.liq
+    );
+
+
+  document.getElementById(
+    "quantity"
+  ).innerText =
+    position.quantity.toFixed(
+      6
+    );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    SHOW POSITION
-========================================================= */
+===================================================== */
 
 function showPosition(){
 
   const box =
-    document.getElementById("position");
+    document.getElementById(
+      "position"
+    );
 
-  box.classList.add("show");
 
-  document.getElementById("positionSymbol")
-    .innerText =
+  box.classList.add(
+    "show"
+  );
+
+
+  document.getElementById(
+    "positionSymbol"
+  ).innerText =
     position.symbol;
 
-  document.getElementById("positionLeverage")
-    .innerText =
-    position.leverage + "x";
+
+  document.getElementById(
+    "positionLeverage"
+  ).innerText =
+    position.leverage +
+    "x";
 
 
   const badge =
-    document.getElementById("sideBadge");
+    document.getElementById(
+      "sideBadge"
+    );
+
 
   badge.innerText =
     position.side;
+
 
   badge.className =
     "sideBadge " +
@@ -1429,41 +2227,54 @@ function showPosition(){
       : "short"
     );
 
-  document.getElementById("realized")
-    .innerText =
-    "0.00";
 
   updatePosition();
 
 }
 
 
-/* =========================================================
-   CLOSE
-========================================================= */
+/* =====================================================
+   CLOSE POSITION
+===================================================== */
 
-function closePosition(reason="MANUAL CLOSE"){
+function closePosition(
+  reason = "MANUAL CLOSE"
+){
 
   if(!position)
     return;
 
+
   const oldPosition =
     {...position};
 
-  let pnl = 0;
 
-  if(currentPrice !== null){
+  let pnl =
+    0;
 
-    if(position.side === "LONG"){
+
+  if(
+    currentPrice !== null
+  ){
+
+    if(
+      position.side === "LONG"
+    ){
 
       pnl =
-        (currentPrice - position.entry) *
+        (
+          currentPrice -
+          position.entry
+        ) *
         position.quantity;
 
     }else{
 
       pnl =
-        (position.entry - currentPrice) *
+        (
+          position.entry -
+          currentPrice
+        ) *
         position.quantity;
 
     }
@@ -1472,83 +2283,113 @@ function closePosition(reason="MANUAL CLOSE"){
 
 
   virtualBalance +=
-    position.margin + pnl;
+    position.margin +
+    pnl;
+
+
+  saveBalance();
 
 
   history.unshift({
 
-    symbol: oldPosition.symbol,
+    symbol:
+      oldPosition.symbol,
 
-    side: oldPosition.side,
+    side:
+      oldPosition.side,
 
-    entry: oldPosition.entry,
+    entry:
+      oldPosition.entry,
 
-    exit: currentPrice,
+    exit:
+      currentPrice,
 
-    pnl: pnl,
+    pnl:
+      pnl,
 
-    reason: reason,
+    reason:
+      reason,
 
-    time: new Date()
+    time:
+      new Date()
 
   });
 
 
-  position = null;
+  position =
+    null;
 
-  document.getElementById("position")
-    .classList.remove("show");
+
+  document.getElementById(
+    "position"
+  )
+  .classList.remove(
+    "show"
+  );
+
 
   updateBalance();
+
 
   renderHistory();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    LIQUIDATION
-========================================================= */
+===================================================== */
 
 function liquidate(){
 
   if(!position)
     return;
 
+
   const oldPosition =
     {...position};
 
+
   history.unshift({
 
-    symbol: oldPosition.symbol,
+    symbol:
+      oldPosition.symbol,
 
-    side: oldPosition.side,
+    side:
+      oldPosition.side,
 
-    entry: oldPosition.entry,
+    entry:
+      oldPosition.entry,
 
-    exit: currentPrice,
+    exit:
+      currentPrice,
 
-    pnl: -oldPosition.margin,
+    pnl:
+      -oldPosition.margin,
 
-    reason: "LIQUIDATED",
+    reason:
+      "LIQUIDATED",
 
-    time: new Date()
+    time:
+      new Date()
 
   });
 
 
-  /*
-    Margin is lost in liquidation.
-  */
+  position =
+    null;
 
-  position = null;
 
-  document.getElementById("position")
-    .classList.remove("show");
+  document.getElementById(
+    "position"
+  )
+  .classList.remove(
+    "show"
+  );
 
-  updateBalance();
 
   renderHistory();
+
 
   alert(
     "Position liquidated in the simulator."
@@ -1557,14 +2398,15 @@ function liquidate(){
 }
 
 
-/* =========================================================
+/* =====================================================
    BALANCE
-========================================================= */
+===================================================== */
 
 function updateBalance(){
 
-  document.getElementById("balance")
-    .innerText =
+  document.getElementById(
+    "balance"
+  ).innerText =
     "$" +
     virtualBalance.toLocaleString(
       undefined,
@@ -1577,19 +2419,28 @@ function updateBalance(){
 }
 
 
-/* =========================================================
+/* =====================================================
    HISTORY
-========================================================= */
+===================================================== */
 
 function renderHistory(){
 
   const list =
-    document.getElementById("historyList");
+    document.getElementById(
+      "historyList"
+    );
 
-  if(history.length === 0){
+
+  if(
+    history.length === 0
+  ){
 
     list.innerHTML =
-      `<div class="empty">No trades yet</div>`;
+      `
+      <div class="empty">
+        No trades yet
+      </div>
+      `;
 
     return;
 
@@ -1597,84 +2448,533 @@ function renderHistory(){
 
 
   list.innerHTML =
-    history.slice(0,30).map(t => {
+    history
+    .slice(0,30)
+    .map(
+      t => {
 
-      const cls =
-        t.pnl >= 0
-        ? "green"
-        : "red";
+        const cls =
+          t.pnl >= 0
+          ? "green"
+          : "red";
 
-      return `
 
-        <div class="historyItem">
+        return `
 
-          <div style="
-            display:flex;
-            justify-content:space-between;
-          ">
+          <div class="historyItem">
 
-            <strong>
-              ${t.symbol}
-            </strong>
+            <div style="
+              display:flex;
+              justify-content:space-between;
+            ">
 
-            <strong class="${cls}">
-              ${formatMoney(t.pnl)}
-            </strong>
+              <strong>
+                ${t.symbol}
+              </strong>
+
+              <strong
+                class="${cls}">
+
+                ${formatMoney(t.pnl)}
+
+              </strong>
+
+            </div>
+
+
+            <div style="
+              color:#8791a1;
+              margin-top:7px;
+            ">
+
+              ${t.side}
+
+              · Entry
+              ${formatPrice(t.entry)}
+
+              · Exit
+              ${formatPrice(t.exit)}
+
+            </div>
+
+
+            <div style="
+              color:#707b8c;
+              margin-top:5px;
+            ">
+
+              ${t.reason}
+
+            </div>
 
           </div>
 
-          <div style="
-            color:#8791a1;
-            margin-top:7px;
-          ">
+        `;
 
-            ${t.side}
-            · Entry ${formatPrice(t.entry)}
-            · Exit ${formatPrice(t.exit)}
+      }
+    )
+    .join("");
 
-          </div>
+}
 
-          <div style="
-            color:#707b8c;
-            margin-top:5px;
-          ">
 
-            ${t.reason}
+/* =====================================================
+   SAVE CURRENT POSITION
+===================================================== */
 
-          </div>
+function saveCurrentPosition(){
 
-        </div>
+  if(!position){
 
+    alert(
+      "There is no open position to save."
+    );
+
+    return;
+
+  }
+
+
+  const saved = {
+
+    id:
+      Date.now(),
+
+    symbol:
+      position.symbol,
+
+    side:
+      position.side,
+
+    entry:
+      position.entry,
+
+    margin:
+      position.margin,
+
+    leverage:
+      position.leverage,
+
+    notional:
+      position.notional,
+
+    quantity:
+      position.quantity,
+
+    tp:
+      position.tp,
+
+    sl:
+      position.sl,
+
+    liq:
+      position.liq,
+
+    savedAt:
+      new Date().toLocaleString()
+
+  };
+
+
+  savedPositions.unshift(
+    saved
+  );
+
+
+  localStorage.setItem(
+    "futuresSavedPositions",
+    JSON.stringify(
+      savedPositions
+    )
+  );
+
+
+  renderSavedPositions();
+
+
+  alert(
+    "Position saved ✓"
+  );
+
+}
+
+
+/* =====================================================
+   RENDER SAVED POSITIONS
+===================================================== */
+
+function renderSavedPositions(){
+
+  const box =
+    document.getElementById(
+      "savedPositions"
+    );
+
+
+  if(
+    savedPositions.length === 0
+  ){
+
+    box.innerHTML =
+      `
+      <div class="empty">
+        No saved positions
+      </div>
       `;
 
-    }).join("");
+    return;
+
+  }
+
+
+  box.innerHTML =
+    savedPositions
+    .map(
+      p => {
+
+        const sideClass =
+          p.side === "LONG"
+          ? "green"
+          : "red";
+
+
+        return `
+
+          <div class="historyItem">
+
+
+            <div style="
+              display:flex;
+              justify-content:space-between;
+              align-items:center;
+            ">
+
+              <div>
+
+                <strong>
+                  ${p.symbol}
+                </strong>
+
+                <span
+                  class="${sideClass}"
+                  style="margin-left:6px;">
+
+                  ${p.side}
+
+                </span>
+
+              </div>
+
+
+              <strong>
+                ${p.leverage}x
+              </strong>
+
+            </div>
+
+
+            <div style="
+              color:#8b95a5;
+              margin-top:9px;
+              line-height:1.7;
+            ">
+
+              Entry:
+              ${formatPrice(p.entry)}
+
+              <br>
+
+              Margin:
+              $${p.margin.toFixed(2)}
+
+              <br>
+
+              TP:
+              ${
+                p.tp !== null
+                ? formatPrice(p.tp)
+                : "--"
+              }
+
+              ·
+
+              SL:
+              ${
+                p.sl !== null
+                ? formatPrice(p.sl)
+                : "--"
+              }
+
+            </div>
+
+
+            <div class="savedButtons">
+
+
+              <button
+                class="action savedOpen"
+                onclick="loadSavedPosition(${p.id})">
+
+                Open
+
+              </button>
+
+
+              <button
+                class="action savedDelete"
+                onclick="deleteSavedPosition(${p.id})">
+
+                🗑 Delete
+
+              </button>
+
+
+            </div>
+
+
+            <div style="
+              color:#697485;
+              font-size:11px;
+              margin-top:8px;
+            ">
+
+              Saved:
+              ${p.savedAt}
+
+            </div>
+
+
+          </div>
+
+        `;
+
+      }
+    )
+    .join("");
 
 }
 
 
-/* =========================================================
-   TP / SL
-========================================================= */
+/* =====================================================
+   LOAD SAVED POSITION
+===================================================== */
 
-function toggleTP(){
+function loadSavedPosition(
+  id
+){
 
-  document
-    .getElementById("tp")
-    .focus();
+  const saved =
+    savedPositions.find(
+      p =>
+        p.id === id
+    );
+
+
+  if(!saved)
+    return;
+
+
+  if(position){
+
+    const ok =
+      confirm(
+        "You already have an open position. Replace it?"
+      );
+
+
+    if(!ok)
+      return;
+
+  }
+
+
+  position = {
+
+    symbol:
+      saved.symbol,
+
+    side:
+      saved.side,
+
+    entry:
+      saved.entry,
+
+    margin:
+      saved.margin,
+
+    leverage:
+      saved.leverage,
+
+    notional:
+      saved.notional,
+
+    quantity:
+      saved.quantity,
+
+    tp:
+      saved.tp,
+
+    sl:
+      saved.sl,
+
+    liq:
+      saved.liq,
+
+    openedAt:
+      new Date()
+
+  };
+
+
+  currentSymbol =
+    saved.symbol;
+
+
+  document.getElementById(
+    "symbolText"
+  ).innerText =
+    saved.symbol;
+
+
+  setSide(
+    saved.side
+  );
+
+
+  document.getElementById(
+    "entry"
+  ).value =
+    saved.entry;
+
+
+  document.getElementById(
+    "margin"
+  ).value =
+    saved.margin;
+
+
+  document.getElementById(
+    "leverage"
+  ).value =
+    saved.leverage;
+
+
+  document.getElementById(
+    "tp"
+  ).value =
+    saved.tp !== null
+    ? saved.tp
+    : "";
+
+
+  document.getElementById(
+    "sl"
+  ).value =
+    saved.sl !== null
+    ? saved.sl
+    : "";
+
+
+  document.getElementById(
+    "entry"
+  ).dataset.auto =
+    "false";
+
+
+  connectWebSocket();
+
+
+  showPosition();
 
 }
 
 
-/* =========================================================
-   FORMAT
-========================================================= */
+/* =====================================================
+   DELETE SAVED POSITION
+===================================================== */
 
-function formatPrice(value){
+function deleteSavedPosition(
+  id
+){
 
-  if(value === null || !Number.isFinite(value))
+  savedPositions =
+    savedPositions.filter(
+      p =>
+        p.id !== id
+    );
+
+
+  localStorage.setItem(
+    "futuresSavedPositions",
+    JSON.stringify(
+      savedPositions
+    )
+  );
+
+
+  renderSavedPositions();
+
+}
+
+
+/* =====================================================
+   DELETE ALL SAVED
+===================================================== */
+
+function deleteAllSaved(){
+
+  if(
+    savedPositions.length === 0
+  )
+    return;
+
+
+  const ok =
+    confirm(
+      "Delete all saved positions?"
+    );
+
+
+  if(!ok)
+    return;
+
+
+  savedPositions =
+    [];
+
+
+  localStorage.setItem(
+    "futuresSavedPositions",
+    JSON.stringify(
+      savedPositions
+    )
+  );
+
+
+  renderSavedPositions();
+
+}
+
+
+/* =====================================================
+   FORMAT PRICE
+===================================================== */
+
+function formatPrice(
+  value
+){
+
+  if(
+    value === null ||
+    !Number.isFinite(value)
+  )
     return "--";
 
-  if(value >= 1000)
+
+  if(
+    value >= 1000
+  ){
+
     return value.toLocaleString(
       undefined,
       {
@@ -1683,7 +2983,13 @@ function formatPrice(value){
       }
     );
 
-  if(value >= 1)
+  }
+
+
+  if(
+    value >= 1
+  ){
+
     return value.toLocaleString(
       undefined,
       {
@@ -1691,6 +2997,9 @@ function formatPrice(value){
         maximumFractionDigits:4
       }
     );
+
+  }
+
 
   return value.toLocaleString(
     undefined,
@@ -1703,10 +3012,19 @@ function formatPrice(value){
 }
 
 
-function formatMoney(value){
+/* =====================================================
+   FORMAT MONEY
+===================================================== */
+
+function formatMoney(
+  value
+){
 
   const sign =
-    value >= 0 ? "+" : "";
+    value >= 0
+    ? "+"
+    : "";
+
 
   return sign +
     value.toFixed(2);
@@ -1714,10 +3032,19 @@ function formatMoney(value){
 }
 
 
-function formatPercent(value){
+/* =====================================================
+   FORMAT PERCENT
+===================================================== */
+
+function formatPercent(
+  value
+){
 
   const sign =
-    value >= 0 ? "+" : "";
+    value >= 0
+    ? "+"
+    : "";
+
 
   return sign +
     value.toFixed(2) +
@@ -1726,25 +3053,32 @@ function formatPercent(value){
 }
 
 
-/* =========================================================
+/* =====================================================
    ENTRY MANUAL CHANGE
-========================================================= */
+===================================================== */
 
 document
-  .getElementById("entry")
+  .getElementById(
+    "entry"
+  )
   .addEventListener(
     "input",
     function(){
 
-      this.dataset.auto = "false";
+      this.dataset.auto =
+        "false";
 
     }
   );
 
 
-/* =========================================================
+/* =====================================================
    START
-========================================================= */
+===================================================== */
+
+updateBalance();
+
+renderSavedPositions();
 
 loadSymbols();
 
